@@ -9,8 +9,10 @@
       <field name="model">travel.travel</field>
       <field name="arch" type="xml">
         <tree string="TravelsTree" version="7.0">
+          <field name="devis_id"/>
+          <field name="responsable"/>
           <field name="name"/>
-          <field name="city_ids"/>
+          <field name="step_ids"/>
           <field name="date_start"/>
           <field name="date_stop"/>
           <field name="state"/>
@@ -24,47 +26,65 @@
       <field name="arch" type="xml">
         <form string="TravelsForm" version="7.0">
           <header>
-            <button name="travel_open" string="Send to Travel Office" states="draft" type="object" class="oe_highlight" groups="travel.group_basic_travel_user,travel.group_travel_accountant"/>
+            <!--button name="travel_open" string="Send to Travel Office" states="draft" type="object" class="oe_highlight" groups="travel.group_basic_travel_user,travel.group_travel_accountant"/>
             <button name="travel_book" string="Book" states="open" type="object" class="oe_highlight" groups="travel.group_authorized_travel_user,travel.group_travel_manager"/>
             <button name="travel_reserve" string="Reserve" states="booking" type="object" class="oe_highlight" groups="travel.group_authorized_travel_user,travel.group_travel_manager"/>
             <button name="travel_confirm" string="Confirm" states="reserved" type="object" class="oe_highlight" groups="travel.group_authorized_travel_user,travel.group_travel_manager"/>
             <button name="travel_close" string="Close" states="confirmed" type="object" class="oe_highlight" groups="travel.group_authorized_travel_user,travel.group_travel_manager"/>
             <field name="state" widget="statusbar"
-                   statusbar_visible="draft,open,booking,reserved,confirmed,done"/>
+                   statusbar_visible="draft,open,booking,reserved,confirmed,done"/-->
           </header>
           <sheet string="Travels">
             <group col="4">
-              <group colspan="4" name="Title">
+              <group colspan="2" name="Title">
                 <field name="name"/>
+				<field name="devis_id" string="Devis associé" options="{'no_create': True}"/> <!-- domain="[('state','in',('manual','progress'))]"/>-->
               </group>
-              <group name="Details">
-                <group string="Cities">
-                  <field name="city_ids" nolabel="1">
-                    <tree version="7.0">
-                      <field name="city"/>
-                      <field name="country_id"/>
-                    </tree>
-                  </field>
-                </group>
-                <group string="Date">
-                  <field name="date_start"/>
-                  <field name="date_stop"/>
-                </group>
+              <group colspan="2" name="Title">
+                <field name="date_start"/>
+                <field name="date_stop"/>
+                <field name="contact_principal" string="Contact principal"/>
               </group>
-            </group>
-            <notebook name="Info">
-              <page name="Passengers" string="Passengers">
-                <field name="passenger_ids" nolabel="1">
-                  <tree name="TravelPassengerTree" version="7.0" editable="bottom">
-                    <field name="partner_id" domain="[('is_company', '=', False)]"
-                           options="{'create': false, 'create_edit': false}" />
-                    <button name="action_passenger_form_view"
-                            type="object"
-                            icon="gtk-open"/>
+              <group colspan="4" string="Etapes">
+                <field name="step_ids" nolabel="1">
+                  <tree colors="gray:date_end &lt; current_date;green:(date_start &lt;= current_date and current_date &lt;= date_end)" default_order="date_start" editable="bottom">
+					<field name="print_voucher"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="ile"/>
+                    <field name="prestataire"/>
+                    <field name="description"/>
+					<field name="nb_adult"/>
+					<field name="nb_child"/>
+					<field name="nb_baby"/>
+					<field name="manager_only" invisible="1"/>
+					<button name="action_voucher_send" string="Imprimer" type="object" icon="gtk-print"/>
                   </tree>
                 </field>
-              </page>
-            </notebook>
+              </group>
+			  <button name="travel_print_vouchers" string="Imprimer les vouchers" type="action" icon="gtk-print"/>
+            </group>
+            <group col="4">
+                <group colspan="2">
+                    <notebook name="Info">
+                      <page name="Passengers" string="Passengers">
+                        <field name="passenger_ids" nolabel="1" widget="many2many">
+                            <tree>
+                                <field name="name" />
+                                <field name="phone" />
+                            </tree>
+                        </field>
+                      </page>
+                      <page name="admin" string="Admin">
+                        <!--field name="devis_id" string="Devis"/-->
+                        <field name="responsable" string="Responsable Agence"/>
+                      </page>
+                    </notebook>
+                </group>
+                <group colspan="2">
+                    <field name="note"/>
+                </group>
+            </group>
           </sheet>
           <div class="oe_chatter">
             <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
@@ -79,7 +99,7 @@
       <field name="name">Travel Calendar View</field>
       <field name="model">travel.travel</field>
       <field name="arch" type="xml">
-        <calendar string="Travel Schedule" color="state" date_start="date_start" date_stop="date_stop">
+        <calendar string="Travel Schedule" color="responsable" date_start="date_start" date_stop="date_stop">
           <field name="name"/>
         </calendar>
       </field>

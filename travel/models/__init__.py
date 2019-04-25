@@ -2,6 +2,5 @@
 
 from . import (
     travel,
-    travel_passenger,
     res_config,
 )

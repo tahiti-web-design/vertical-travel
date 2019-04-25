@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="travel_step_form">
+            <field name="name">travel.step.form</field>
+            <field name="model">travel.step</field>
+            <field name="arch" type="xml">
+                <form string="Etape" version="7.0">
+                    <group col="4">
+						<field name="date_start"/>
+						<field name="date_end"/>
+						<field name="prestataire"/>
+						<field name="description"/>
+						<field name="ile"/>
+						<field name="print_voucher"/>
+						<field name="nb_adult"/>
+						<field name="nb_child"/>
+						<field name="nb_baby"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="travel_step_tree">
+            <field name="name">travel.step.tree</field>
+            <field name="model">travel.step</field>
+            <field name="arch" type="xml">
+                <tree string="Etape">
+                    <field name="date_start"/>
+					<field name="date_end"/>
+					<field name="prestataire"/>
+					<field name="description"/>
+					<field name="ile"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_travel_step_filter" model="ir.ui.view">
+            <field name="name">travel.step.select</field>
+            <field name="model">travel.step</field>
+            <field name="arch" type="xml">
+                <search string="Search Step">
+                    <field name="date_start"/>
+					<field name="date_end"/>
+					<field name="prestataire"/>
+					<field name="description"/>
+					<field name="ile"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_step_tree" model="ir.actions.act_window">
+            <field name="name">Gestion des etapes de voyage</field>
+            <field name="res_model">travel.step</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field ref="travel_step_tree" name="view_id"/>
+            <field name="search_view_id" ref="view_travel_step_filter"/>
+        </record>
+
+    </data>
+</openerp>

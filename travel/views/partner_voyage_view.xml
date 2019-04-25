@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Partner form -->
+        <record model="ir.ui.view" id="view_partner_form_travel">
+            <field name="name">res.partner.form.travel</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <!-- on ajoute les infos relatives au voyage -->
+                    <xpath expr="//page[@name='sales_purchases']" position="after">
+                        <page string="Details Voyage">
+                            <group col="2">
+								<group name="obj">
+									<field name="carte_atn"/>
+									<field name="passport_num"/>
+									<field name="visa_num"/>
+									<field name="esta_num"/>
+								</group>
+								<group name="dates">
+									<field name="carte_atn_date"/>
+									<field name="passport_date"/>
+									<field name="visa_date"/>
+									<field name="esta_date"/>
+								</group>
+							</group>
+                            <group string="Voyages">
+                            <field name="travel_ids" nolabel="1" readonly="1">
+                              <tree default_order="date_start">
+                                <field name="name"/>
+                                <field name="responsable"/>
+                                <field name="date_start"/>
+                                <field name="date_stop"/>
+                              </tree>
+                            </field>
+                          </group>
+                        </page>
+                    </xpath>
+					<xpath expr="//page[@name='internal_notes']/field[@name='comment']" position="after">
+						<group col="2">
+							<field name="origine" nolabel="0" />
+						</group>
+					</xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -62,6 +62,19 @@
       <field name="domain_force">[('manager_only', '=', False)]</field>
     </record>
 
+    <record id="travel_step_manager_rule" model="ir.rule">
+      <field name="name">Manager travel step rule</field>
+      <field name="model_id" ref="model_travel_step"/>
+      <field name="perm_read" eval="False"/>
+      <field name="groups" eval="[(4, ref('travel.group_travel_manager'))]"/>
+    </record>
+
+    <record id="travel_step_non_manager_rule" model="ir.rule">
+      <field name="name">Non-manager travel step rule</field>
+      <field name="model_id" ref="model_travel_step"/>
+      <field name="perm_read" eval="False"/>
+      <field name="groups" eval="[(4, ref('group_basic_travel_user')), (4, ref('group_authorized_travel_user'))]"/>
+    </record>
   </data>
 
 </openerp>

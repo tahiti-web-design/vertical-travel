@@ -12,7 +12,21 @@
                    domain="[('is_company', '=', False)]"
                    options="{'create': false, 'create_edit': false}"/>
             <field name="travel_id" invisible="1" />
-          </group>
+		  </group>
+		  <group string="Info supplémentaires" col="2">
+		    <group name="obj">
+		  	  <field name="carte_atn"/>
+			  <field name="passport_num"/>
+			  <field name="visa_num"/>
+			  <field name="esta_num"/>
+		    </group>
+		    <group name="dates">
+			  <field name="carte_atn_date"/>
+			  <field name="passport_date"/>
+			 <field name="visa_date"/>
+			  <field name="esta_date"/>
+		    </group>
+		  </group>
           <notebook name="Info"/>
           <div class="oe_chatter">
             <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
