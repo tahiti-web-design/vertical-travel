@@ -22,8 +22,8 @@
 
 {
     'name': 'Travel',
-    'version': '8.0.1.0.0',
-    'author': "Savoir-faire Linux,Odoo Community Association (OCA)",
+    'version': '1.0',
+    'author': "Savoir-faire Linux,Odoo Community Association (OCA) -- adapted by TWD",
     'maintainer': 'Savoir-faire Linux',
     'website': 'http://www.savoirfairelinux.com',
     'license': 'AGPL-3',
@@ -47,7 +47,11 @@ Contributors
     'data': [
         'security/travel_security.xml',
         'views/travel.xml',
-        'views/travel_passenger.xml',
+        'views/travel_step.xml',
+        'report_travel.xml',
+        'views/travel_voucher.xml',
+        'views/travel_voucher_presta.xml',
+        'views/partner_voyage_view.xml',
         'views/res_config.xml',
         'security/ir.model.access.csv',
     ],

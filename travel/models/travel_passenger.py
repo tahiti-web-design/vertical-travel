@@ -50,6 +50,37 @@ class TravelPassenger(models.Model):
         string='State',
         related='travel_id.state',
     )
+    passport_num = fields.Char(
+        string="Passeport",
+        help="Numéro de passeport"
+    )
+    passport_date = fields.Date(
+        string="Validité passeport"
+    )
+    visa_num = fields.Char(
+        string="Visa",
+        help="Numéro de Visa"
+    )
+    visa_date = fields.Date(
+        string="Validité Visa"
+    )
+    esta_num = fields.Char(
+        string="ESTA",
+        help="Numéro ESTA"
+    )
+    esta_date = fields.Date(
+        string="Validité ESTA"
+    )
+    carte_atn=fields.Char(
+        string="Carte Air Tahiti/Nui",
+        help="Numéro de carte de réduction"
+    )
+    carte_atn_date=fields.Date(
+        string="Validité Carte"
+    )
+    
+    
+    
 
     @api.multi
     def name_get(self):

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="report_travel_voucher"
+            string="Vouchers"
+            model="travel.travel"
+            report_type="qweb-pdf"
+            file="travel.report_voucher"
+            name="travel.report_voucher"
+        />
+		<report 
+            id="report_travel_voucher_presta"
+            string="Voucher Prestataire"
+            model="travel.travel.step" 
+            report_type="qweb-pdf"
+            file="travel.report_voucher_presta" 
+            name="travel.report_voucher_presta" 
+        />
+    </data>
+</openerp>

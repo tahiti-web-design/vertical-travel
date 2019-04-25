@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+		<!--  LES DIFFERENTS HEADERS POUR LES DIFFERENTES COMPAGNIES   -->
+ 
+        <!-- TTS -->
+        <template id="external_layout_voucher">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"/>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+			
+			<t t-if="o.devis_id and 'company_alt_id' in o.devis_id">
+				<t t-set="altCompany" t-value="o.devis_id.company_alt_id"/>
+				<t t-if="altCompany">
+					<t t-call="travel.external_layout_header_voucher"/>
+					<t t-raw="0"/>
+				</t>
+				<t t-if="not altCompany">
+					<t t-call="travel.external_layout_header_voucher">
+						<t t-set="CompName">Tahiti Cruise and Vacation</t>
+					</t>
+					<t t-raw="0"/>
+				</t>
+            </t>  
+        </template>
+		
+        
+		<template id="external_layout_header_voucher">
+            <div class="my_header">
+				<t t-if="altCompany">
+					<div class="row" style="height:90px">
+						<div class="col-xs-8 text-center">
+							<img t-if="altCompany.logo" t-att-src="'data:image/png;base64,%s' % altCompany.logo" style="height:90px;"/>
+						</div>
+						<div class="col-xs-4" style="margin-top:30px">
+							<div style="padding:10px;border:1px solid #CCC">
+								Voucher n°: <!--t t-esc="datetime.datetime.now().strftime('%Y%m%d')" /--><span  t-field="step.date_start"  t-field-options='{"format": "yyyy"}'/><t t-esc="'%06d'%step.id" />
+							</div>
+						</div>
+					</div>
+					<div class="row mb8" style="color:#666;font-size:11px;">
+						 <div id="contact_info" class="col-xs-12 text-center">
+							<t t-if="altCompany.street"><span t-field="altCompany.street" /></t>
+							<t t-if="not altCompany.street">BP 9274 Motu Uta 98715 Papeete</t>
+							<ul style="display: inline; margin-left: 0px; padding-left: 0px;">
+								<t t-if="altCompany.tel"><li style="display:inline;margin-left:8px"><i class="fa fa-phone"></i> <span t-field="altCompany.tel"/></li></t>
+								<t t-if="altCompany.fax"><li style="display:inline;margin-left:8px"><i class="fa fa-fax"></i> <span t-field="altCompany.fax"/></li></t>
+								<t t-if="altCompany.mail"><li style="display:inline;margin-left:8px"><i class="fa fa-envelope"></i> <span t-field="altCompany.mail"/></li></t>
+							</ul>
+						</div>
+					</div>
+				</t>
+				<t t-if="not altCompany">
+					<t t-foreach="company['alt']" t-as="altComp">
+						<t t-if="altComp.name==CompName">
+							<div class="row" style="height:90px">
+								<div class="col-xs-8 text-center">
+									<img t-if="altComp.logo" t-att-src="'data:image/png;base64,%s' % altComp.logo" style="max-height: 90px;"/>
+								</div>
+								<div class="col-xs-4" style="margin-top:30px">
+									<div style="padding:10px;border:1px solid #CCC">
+										Voucher n°: <!--t t-esc="datetime.datetime.now().strftime('%Y%m%d')" /--><span  t-field="step.date_start"  t-field-options='{"format": "yyyy"}'/><t t-esc="'%06d'%step.id" />
+									</div>
+								</div>
+							</div>
+							<div class="row mb8" style="color:#666;font-size:11px;margin-top:-20px">
+								 <div id="contact_info" class="col-xs-12 text-center">
+									<t t-if="altComp.street"><span t-field="altComp.street" /></t>
+									<t t-if="not altComp.street">BP 9274 Motu Uta 98715 Papeete</t>
+									<ul style="display: inline; margin-left: 0px; padding-left: 0px;">
+										<t t-if="altComp.tel"><li style="display:inline;margin-left:8px"><i class="fa fa-phone"></i> <span t-field="altComp.tel"/></li></t>
+										<t t-if="altComp.fax"><li style="display:inline;margin-left:8px"><i class="fa fa-fax"></i> <span t-field="altComp.fax"/></li></t>
+										<t t-if="altComp.mail"><li style="display:inline;margin-left:8px"><i class="fa fa-envelope"></i> <span t-field="altComp.mail"/></li></t>
+									</ul>
+								</div>
+							</div>
+						</t>
+					</t>
+				</t>
+            </div>
+        </template>
+        
+        <!--    Template du voucher TCV/RATERE/TA/TTS    -->
+        <!-- CORPS -->
+        <template id="tcv_voucher_corps">
+            <div class="oe_structure" style="border:1px solid #CCC"/>
+				<table class="table-bordered" style="width:100%">
+					<tr>
+						<td colspan="3" style="padding:4px">
+							Prestataire / Provider : <span t-field="step.prestataire"/>
+						</td>
+						<td colspan="2" style="padding:4px">
+							N° Reservation / Booking code : <span t-field="o.devis_id.name"/>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:4px">
+							Adultes / Adults : <t t-if="step.nb_adult"><span t-field="step.nb_adult"/></t><t t-if="not step.nb_adult">0</t>
+						</td>
+						<td style="padding:4px">
+							Enfants / Children : <t t-if="step.nb_child"><span t-field="step.nb_child"/></t><t t-if="not step.nb_child">0</t>
+						</td>
+						<td style="padding:4px">
+							Bébé / Infants : <t t-if="step.nb_baby"><span t-field="step.nb_baby"/></t><t t-if="not step.nb_baby">0</t>
+						</td>
+						<td colspan="2" style="padding:4px">
+							Code tarif / Rate code : 
+						</td>
+					</tr>
+					<tr style="height:50px">
+						<td colspan="5" style="padding:4px">
+							Nom / Name : <span t-field="o.contact_principal.name" />
+						</td>
+					</tr>
+					<tr  style="height:70px">
+						<td style="padding:4px">
+							Date : <span  t-field="step.date_start"  t-field-options='{"format": "dd-MM-yyyy"}'/>
+						</td>
+						<td colspan="4" style="padding:4px">
+							Service : <br />
+							<div style="width:90%;margin:0 auto;text-align:center;font-size:12px"><span t-field="step.description" /></div>
+						</td>
+					</tr>
+					<tr>
+						<td rowspan="2" style="padding:4px">
+						Infos vols / Flight info :
+						</td>
+						<td colspan="3" style="padding:4px">
+							Arrivée / Arrival : 
+						</td>
+						<td style="padding:4px">
+							<t t-if="o.contact_principal.lang">
+								<t t-if="o.contact_principal.lang=='en_US'">
+									<span  t-field="step.date_start"  t-field-options='{"format": "MM-dd-yyyy h:mm a"}'/>
+								</t>
+								<t t-if="o.contact_principal.lang!='en_US'">
+									<span  t-field="step.date_start"  t-field-options='{"format": "dd-MM-yyyy HH:mm"}'/>
+								</t>
+							</t>
+							<t t-if="not o.contact_principal.lang">
+								<span  t-field="step.date_start"  t-field-options='{"format": "dd-MM-yyyy HH:mm"}'/>
+							</t>
+							<!--span  t-field="step.date_start"  t-field-options='{"format": "dd-MM-yyyy HH:mm"}'/-->
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="padding:4px">
+							Départ / Departure : 
+						</td>
+						<td style="padding:4px">
+							<t t-if="o.contact_principal.lang">
+								<t t-if="o.contact_principal.lang=='en_US'">
+									<span  t-field="step.date_end"  t-field-options='{"format": "MM-dd-yyyy h:mm a"}'/>
+								</t>
+								<t t-if="o.contact_principal.lang!='en_US'">
+									<span  t-field="step.date_end"  t-field-options='{"format": "dd-MM-yyyy HH:mm"}'/>
+								</t>
+							</t>
+							<t t-if="not o.contact_principal.lang">
+								<span  t-field="step.date_end"  t-field-options='{"format": "dd-MM-yyyy HH:mm"}'/>
+							</t>
+							<!--span  t-field="step.date_end"  t-field-options='{"format": "dd-MM-yyyy HH:mm"}'/-->
+						</td>
+					</tr>
+				</table>
+                <div class="oe_structure"/>
+        </template>
+        
+
+        <!--  Base template -->
+        <template id="report_voucher">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'contact_principal.lang', 'travel.report_voucher_tcv_document')"/>
+                </t>
+            </t>
+        </template>
+        <template id="report_voucher_tcv_document">
+			<div class="header">
+				<div class="row">
+					<div class="col-xs-8 text-center">Vouchers</div>
+				</div>
+			</div>
+			<!-- Un voucher par ligne -->
+			<div class="page" style="font-size:11px">
+				<t t-foreach="o.get_print_vouchers()" t-as="step">
+				<!--t t-foreach="o.step_ids" t-as="step"-->
+					<div style="page-break-inside: avoid !important;" >
+						<t t-call="travel.external_layout_voucher">
+							<t t-call="travel.tcv_voucher_corps" />
+						</t>
+					</div>
+					<div style="height:15px;width:90%;border-bottom:1px dashed #CCC;margin:0 auto" />
+				</t>
+			</div>
+        </template>
+		
+		
+    </data>
+</openerp>
